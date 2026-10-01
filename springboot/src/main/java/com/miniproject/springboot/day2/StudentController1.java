@@ -13,10 +13,10 @@ import  org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.http.ResponseEntity;
 
 
-@RestController
+//@RestController
 //request mapping makes the common starting point for all student apis
-@RequestMapping("/students")
-public class StudentController {
+//@RequestMapping("/students")
+public class StudentController1 {
       @PostMapping
       public Student add(@RequestBody  Student stud){
         return stud;
