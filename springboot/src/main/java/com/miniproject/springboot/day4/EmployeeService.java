@@ -4,46 +4,42 @@ import org.springframework.stereotype.Service;
 
 @Service 
 public class EmployeeService {
+    
+    private final EmployeeRepository employeeRepository;
+    public EmployeeService(EmployeeRepository employeeRepository){
+        this.employeeRepository=employeeRepository;
+    }
     //post
-    List<Employee> employees = new ArrayList<>();
     public Employee addEmployee(Employee e){
-        employees.add(e);
-        return e;
+       return employeeRepository.save(e);
+       
     }
     //get
     public List<Employee> getEmployee(){
-        return employees;
+        return employeeRepository.findAll();
     }
     //get employee by id
     public Employee getEmployeeById(int id){
-        for(Employee e : employees){
-            if(e.getId()==id){
-                return e;
-            }
-        }
-        return null;
+      return employeeRepository.findById(id).orElse(null);
     }
     //PUT - update
     public Employee updateEmployee(int id,Employee updatedemployee){
-        for(Employee e : employees){
-            if(e.getId()==id){
+       Employee e = employeeRepository.findById(id).orElse(null);
+       if(e!=null){
                 e.setName(updatedemployee.getName());
                 e.setDept(updatedemployee.getDept() );
                 e.setSalary(updatedemployee.getSalary());
-                return e;
+                return employeeRepository.save(e);
             }
-        }
         return null;
-
     }
     //DELETE 
     public boolean  deleteEmployee(int id){
-      for(Employee e :employees){
-        if(e.getId()==id){
-            employees.remove(e);
+      if(employeeRepository.existsById(id)){
+        employeeRepository.deleteById(id);
             return true;
         }
-      }
+      
       return false;
     }
 
